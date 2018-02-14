@@ -11,11 +11,11 @@ None
 Role Variables
 --------------
 
-REQUIRED: checked_password: The password to *actually* check. Only a single password can be checked each time through.
-Optional: min_length: The minimum length of the string to "pass" - set to 8
-Optional: max_length: The maximum length of the string to "pass" - set to 128
-Optional: minimum_complexity: How many character groups must it have (Numbers, Symbols, Upper-case and Lower-case letters) - set to 3
-Optional: error_if_complexity_is_not_met: Should we throw an error if we do not meet minimum complexity? - Default True
+* REQUIRED: checked_password: The password to *actually* check. Only a single password can be checked each time through.
+* Optional: min_length: The minimum length of the string to "pass" - set to 8
+* Optional: max_length: The maximum length of the string to "pass" - set to 128
+* Optional: minimum_complexity: How many character groups must it have (Numbers, Symbols, Upper-case and Lower-case letters) - set to 3
+* Optional: error_if_complexity_is_not_met: Should we throw an error if we do not meet minimum complexity? - Default True
 
 Dependencies
 ------------
