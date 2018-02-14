@@ -1,0 +1,33 @@
+galaxy_info:
+  author: Jon "The Nice Guy" Spriggs
+  description: A simple role to perform basic checks on supplied passwords
+
+  license: Unlicense
+  min_ansible_version: 1.2
+
+  platforms:
+  - name: Windows
+    versions: all
+  - name: Fedora
+    versions: all
+  - name: Ubuntu
+    versions: all
+  - name: RHEL
+    versions: all
+  - name: Debian
+    versions: all
+  - name: CentOS
+    versions: all
+  - name: SUSE
+    versions: all
+  - name: OpenSUSE
+    versions: all
+
+  galaxy_tags:
+  - password
+  - validator
+  - check
+  - length
+  - complexity
+
+dependencies: []

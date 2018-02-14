@@ -1,0 +1,6 @@
+---
+checked_password: "Really Complex Password123!"
+min_length: 8
+max_length: 128
+minimum_complexity: 3
+error_if_complexity_is_not_met: True

@@ -1,0 +1,39 @@
+---
+# This one is thanks to many of the answers in https://stackoverflow.com/q/41117733/5738
+- name: Check password conditions
+  set_fact:
+    valid_length_check: "{{ checked_password|regex_search('^\\S{' + min_length|string + ',' + max_length|string + '}') }}"
+    valid_number_check: "{{ checked_password|regex_search('[0-9]') }}"
+    valid_symbol_check: "{{ checked_password|regex_search('[^A-Za-z0-9]') }}"
+    valid_lower_check: "{{ checked_password|regex_search('[a-z]') }}"
+    valid_upper_check: "{{ checked_password|regex_search('[A-Z]') }}"
+# This one took me some time, but is entirely thanks to http://smileytechadventures.blogspot.co.uk/2015/07/ansible-test-variable-defined-and-not.html
+- name: Set complexity flags and confirm min/max length
+  set_fact:
+    state_length: "{{ not(valid_length_check is undefined or valid_length_check is none or valid_length_check | trim == '') | bool }}"
+    state_number: "{{ not(valid_number_check is undefined or valid_number_check is none or valid_number_check | trim == '') | bool }}"
+    state_symbol: "{{ not(valid_symbol_check is undefined or valid_symbol_check is none or valid_symbol_check | trim == '') | bool }}"
+    state_lower: "{{ not(valid_lower_check is undefined or valid_lower_check is none or valid_lower_check | trim == '') | bool }}"
+    state_upper: "{{ not(valid_upper_check is undefined or valid_upper_check is none or valid_upper_check | trim == '') | bool }}"
+- name: Set complexity result and length
+  set_fact:
+    state_complexity: "{{ (state_number | int) + (state_symbol | int) + (state_lower | int) + (state_upper | int) | int }}"
+- name: Confirm status of complexity and length
+  assert:
+    that:
+    - "state_complexity >= minimum_complexity"
+    - "state_length == True"
+    msg: Does not meet minimum complexity level or length
+  when: error_if_complexity_is_not_met
+- name: Advise status of complexity (warnings)
+  debug:
+    msg: "Complexity is not high enough - Requested: {{ minimum_complexity }} Got: {{ state_complexity }}"
+  when: 
+  - not (error_if_complexity_is_not_met)
+  - state_complexity < minimum_complexity
+- name: Advise status of length (warnings)
+  debug:
+    msg: "Length is not valid - Range: {{ min_length }}-{{ max_length}}"
+  when: 
+  - not (error_if_complexity_is_not_met)
+  - state_length|bool == False
